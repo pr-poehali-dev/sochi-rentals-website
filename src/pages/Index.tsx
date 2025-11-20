@@ -18,6 +18,7 @@ interface Property {
   title: string;
   type: string;
   price: number;
+  priceMonthly?: number;
   image: string;
   beds: number;
   baths: number;
@@ -36,6 +37,7 @@ const properties: Property[] = [
     title: 'Современная квартира с видом на море',
     type: 'apartment',
     price: 5000,
+    priceMonthly: 80000,
     image: 'https://cdn.poehali.dev/projects/def3cd57-0b41-474e-99d3-d9434be9074b/files/3e52603f-b5b9-47ff-a739-da94c1e7a189.jpg',
     beds: 2,
     baths: 1,
@@ -52,6 +54,7 @@ const properties: Property[] = [
     title: 'Вилла на берегу моря',
     type: 'villa',
     price: 15000,
+    priceMonthly: 250000,
     image: 'https://cdn.poehali.dev/projects/def3cd57-0b41-474e-99d3-d9434be9074b/files/287de535-3c7e-4c6a-9f89-881c872eddfa.jpg',
     beds: 4,
     baths: 3,
@@ -68,6 +71,7 @@ const properties: Property[] = [
     title: 'Уютная студия в центре',
     type: 'studio',
     price: 3000,
+    priceMonthly: 45000,
     image: 'https://cdn.poehali.dev/projects/def3cd57-0b41-474e-99d3-d9434be9074b/files/5612420e-d2b7-4663-8c1f-d2ce0d1cfb02.jpg',
     beds: 1,
     baths: 1,
@@ -84,6 +88,7 @@ const properties: Property[] = [
     title: 'Апартаменты с панорамным видом',
     type: 'apartment',
     price: 7000,
+    priceMonthly: 120000,
     image: 'https://cdn.poehali.dev/projects/def3cd57-0b41-474e-99d3-d9434be9074b/files/3e52603f-b5b9-47ff-a739-da94c1e7a189.jpg',
     beds: 3,
     baths: 2,
@@ -100,6 +105,7 @@ const properties: Property[] = [
     title: 'Комната в центре города',
     type: 'room',
     price: 1500,
+    priceMonthly: 25000,
     image: 'https://cdn.poehali.dev/projects/def3cd57-0b41-474e-99d3-d9434be9074b/files/5612420e-d2b7-4663-8c1f-d2ce0d1cfb02.jpg',
     beds: 1,
     baths: 1,
@@ -144,6 +150,7 @@ export default function Index() {
   const [checkIn, setCheckIn] = useState<Date>();
   const [checkOut, setCheckOut] = useState<Date>();
   const [showBooking, setShowBooking] = useState(false);
+  const [rentalType, setRentalType] = useState<'daily' | 'monthly'>('daily');
   const [activeSection, setActiveSection] = useState('catalog');
 
   const filteredProperties = properties.filter(property => {
@@ -491,6 +498,28 @@ export default function Index() {
                 alt={selectedProperty.title}
                 className="w-full h-64 object-cover rounded-lg"
               />
+
+              <div>
+                <Label className="text-base font-semibold mb-3 block">Тип аренды</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <Button
+                    variant={rentalType === 'daily' ? 'default' : 'outline'}
+                    onClick={() => setRentalType('daily')}
+                    className="w-full"
+                  >
+                    <Icon name="Calendar" size={18} className="mr-2" />
+                    Посуточно
+                  </Button>
+                  <Button
+                    variant={rentalType === 'monthly' ? 'default' : 'outline'}
+                    onClick={() => setRentalType('monthly')}
+                    className="w-full"
+                  >
+                    <Icon name="CalendarDays" size={18} className="mr-2" />
+                    Длительно (от месяца)
+                  </Button>
+                </div>
+              </div>
               
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -540,23 +569,41 @@ export default function Index() {
               </div>
 
               <div className="bg-muted p-4 rounded-lg space-y-2">
-                <div className="flex justify-between">
-                  <span>Цена за сутки:</span>
-                  <span className="font-semibold">{selectedProperty.price} ₽</span>
-                </div>
-                {checkIn && checkOut && (
+                {rentalType === 'daily' ? (
                   <>
                     <div className="flex justify-between">
-                      <span>Количество суток:</span>
-                      <span className="font-semibold">
-                        {Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))}
-                      </span>
+                      <span>Цена за сутки:</span>
+                      <span className="font-semibold">{selectedProperty.price} ₽</span>
                     </div>
-                    <div className="flex justify-between text-lg font-bold border-t pt-2">
-                      <span>Итого:</span>
-                      <span className="text-primary">
-                        {selectedProperty.price * Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))} ₽
-                      </span>
+                    {checkIn && checkOut && (
+                      <>
+                        <div className="flex justify-between">
+                          <span>Количество суток:</span>
+                          <span className="font-semibold">
+                            {Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-lg font-bold border-t pt-2">
+                          <span>Итого:</span>
+                          <span className="text-primary">
+                            {selectedProperty.price * Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))} ₽
+                          </span>
+                        </div>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between">
+                      <span>Цена за месяц:</span>
+                      <span className="font-semibold">{selectedProperty.priceMonthly} ₽</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground mt-2">
+                      При аренде от 3 месяцев - скидка 10%
+                    </div>
+                    <div className="flex justify-between text-lg font-bold border-t pt-2 mt-2">
+                      <span>За месяц:</span>
+                      <span className="text-primary">{selectedProperty.priceMonthly} ₽</span>
                     </div>
                   </>
                 )}

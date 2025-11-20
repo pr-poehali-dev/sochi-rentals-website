@@ -94,6 +94,22 @@ const properties: Property[] = [
     rating: 4.7,
     reviews: 22,
     available: false
+  },
+  {
+    id: 5,
+    title: 'Комната в центре города',
+    type: 'room',
+    price: 1500,
+    image: 'https://cdn.poehali.dev/projects/def3cd57-0b41-474e-99d3-d9434be9074b/files/5612420e-d2b7-4663-8c1f-d2ce0d1cfb02.jpg',
+    beds: 1,
+    baths: 1,
+    area: 18,
+    address: 'ул. Морская, 45',
+    lat: 43.5868,
+    lng: 39.7215,
+    rating: 4.5,
+    reviews: 12,
+    available: true
   }
 ];
 
@@ -217,6 +233,7 @@ export default function Index() {
                       <SelectItem value="apartment">Квартиры</SelectItem>
                       <SelectItem value="villa">Виллы</SelectItem>
                       <SelectItem value="studio">Студии</SelectItem>
+                      <SelectItem value="room">Комнаты</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

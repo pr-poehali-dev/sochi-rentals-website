@@ -202,7 +202,7 @@ export default function Index() {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <Calendar mode="single" selected={checkIn} onSelect={setCheckIn} />
+                <Calendar mode="single" selected={checkIn} onSelect={setCheckIn} locale={ru} />
               </PopoverContent>
             </Popover>
             <Popover>
@@ -213,7 +213,7 @@ export default function Index() {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <Calendar mode="single" selected={checkOut} onSelect={setCheckOut} />
+                <Calendar mode="single" selected={checkOut} onSelect={setCheckOut} locale={ru} />
               </PopoverContent>
             </Popover>
             <Button size="lg" className="w-full sm:w-auto">
@@ -532,7 +532,7 @@ export default function Index() {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={checkIn} onSelect={setCheckIn} />
+                      <Calendar mode="single" selected={checkIn} onSelect={setCheckIn} locale={ru} />
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -546,7 +546,7 @@ export default function Index() {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
-                      <Calendar mode="single" selected={checkOut} onSelect={setCheckOut} />
+                      <Calendar mode="single" selected={checkOut} onSelect={setCheckOut} locale={ru} />
                     </PopoverContent>
                   </Popover>
                 </div>
